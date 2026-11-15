@@ -1,0 +1,28 @@
+{
+  "id": "abyss-plugin-virus-guard",
+  "name": "病毒拦截",
+  "version": "0.1.0",
+  "minHost": 1,
+  "minApp": "0.8.0",
+  "category": "system",
+  "summary": "安装事件拦截 + 病毒特征引擎：ClamAV 级本地签名库 + VirusTotal 云查询 + 已装应用全盘扫描与处置面板，支持独立 Shizuku 授权（安装监听与静默处置）。",
+  "icon": "🦠",
+  "permissions": [
+    "INTERNET",
+    "FOREGROUND_SERVICE",
+    "RECEIVE_BOOT_COMPLETED"
+  ],
+  "shizuku": {
+    "ownAuth": true,
+    "reason": "安装事件拦截经 Shizuku（ADB shell 上下文）挂接 pm install-session 监听与静默卸载处置 —— 免 Shizuku 时降级为普通安装广播监听（仅提示，不能拦截）；本插件为独立 APK，按 Shizuku per-app 授权机制需单独授权一次。"
+  },
+  "entry": "com.abyss.plugin.virusguard.VirusGuardPlugin",
+  "repo": "abyss-tool/abyss-plugin-virus-guard",
+  "patchChannel": "https://raw.githubusercontent.com/abyss-tool/abyss-plugin-virus-guard/main/patches/index.json",
+  "roadmap": [
+    "v0.2 拦截骨架：安装广播 + 会话监听 + 信任判定管线",
+    "v0.3 本地特征引擎：ClamAV 签名库移植 + 哈希黑名单",
+    "v0.4 VirusTotal 云查询（限额调度 + 结果缓存）",
+    "v0.5 全盘扫描与处置面板（隔离 / 卸载引导 / 白名单）"
+  ]
+}
