@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <application
+        android:label="@string/app_name"
+        android:allowBackup="false">
+
+        <meta-data
+            android:name="com.abyss.tools.plugin.HOST_ENTRY"
+            android:value="com.abyss.plugin.virusguard.VirusGuardPlugin" />
+
+        <!-- N-VIR-001：安装事件接收器骨架（targetSdk 28 下 PACKAGE_ADDED
+             需显式注册；M1 管线先行，receiver 接线随 v0.2 会话监听降级链） -->
+        <receiver
+            android:name=".InstallEventReceiver"
+            android:exported="false" />
+    </application>
+</manifest>
