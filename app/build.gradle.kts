@@ -15,9 +15,9 @@ android {
         targetSdk = 28
         // 版本单一事实源 = 仓库根 plugin.json "version"（CI 门禁校验一致）；
         // 构建期由 gradle 从 plugin.json 读取，避免第三处手写漂移。
-        val manifestJson = file("../plugin.json").readText()
+        val manifestJson = runCatching { file("../plugin.json").readText() }.getOrDefault("{}")
         val version = Regex("\"version\"\\s*:\\s*\"([^\"]+)\"")
-            .find(manifestJson)?.groupValues[1] ?: "0.1.0"
+            .find(manifestJson)?.groupValues?.getOrNull(1) ?: "0.1.0"
         versionName = version
         versionCode = 1
     }
@@ -50,9 +50,6 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-    kotlinOptions {
-        jvmTarget = "17"
-    }
     lint {
         disable += "ExpiredTargetSdkVersion"
     }
@@ -62,4 +59,11 @@ dependencies {
     // M1 切片零外部依赖：契约以镜像副本内置（唯一事实源 = 主仓 plugin-sdk，
     // v0.2 AIDL 桥接入后改经发布工件）；UI 为最小 Compose 免依赖薄壳。
     testImplementation(kotlin("test"))
+}
+
+// Kotlin 2.3 起 jvmTarget 必须走 compilerOptions DSL（kotlinOptions 已禁用）
+kotlin {
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+    }
 }
