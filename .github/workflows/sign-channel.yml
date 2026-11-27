@@ -1,5 +1,9 @@
 name: Sign Patch Channel
 
+# 注意：注册 workflow 的 push 不得带 [skip ci] —— GitHub 会跳过整个 push
+# 事件处理（含 workflow 文件注册），上一轮「trigger workflow registration
+# [skip ci]」正是因此未能注册本 workflow（B-03 根因之一）。
+
 # N-SEC-001 首签/补签：对当前 patches/index.json 产出 detached 签名
 # （patch-release 流水线滚动时自动签名；本 workflow 用于首次落地 /
 # 私钥轮换后的存量通道补签，幂等 —— 已有可验签名则跳过）。
